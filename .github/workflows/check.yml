@@ -1,0 +1,17 @@
+name: check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: false
+      - uses: jdx/mise-action@v3
+      - run: ./scripts/check.sh
+      - run: ./scripts/test.sh
+      - run: ./scripts/fuzz.sh
+      - run: python3 scripts/mutation-smoke.py
+      - run: ./scripts/example.sh

@@ -1,0 +1,22 @@
+[tools]
+golangci-lint = "2.15.0"
+
+[tasks.fmt]
+description = "Format Go and fix whitespace"
+run = "./scripts/fmt.sh"
+
+[tasks.check]
+description = "Run nonmutating style, tests and vet checks"
+run = "./scripts/check.sh"
+
+[tasks.test]
+run = "go test ./..."
+
+[tasks.race]
+run = "go test -race ./..."
+
+[tasks.mutation]
+run = "python3 scripts/mutation-smoke.py"
+
+[tasks.bench]
+run = "go test -run '^$' -bench . -benchmem ./..."
