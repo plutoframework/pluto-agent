@@ -1,0 +1,6 @@
+github.com/plutoframework/pluto-agent v0.1.2 h1:inlyU0i1SccafIrhwgN8E7StBEk9hQVXT88vbiNTEWA=
+github.com/plutoframework/pluto-agent v0.1.2/go.mod h1:kgb6jFXGwRU7Sr6SwIp9fQYUxdm08vgGDfzgGTbggB0=
+github.com/plutoframework/pluto-agent/integrations/plutorbac v0.1.2 h1:egG1AuhFkW7ytnOHqyBqK288XzlKf9BPsMznYvsgunw=
+github.com/plutoframework/pluto-agent/integrations/plutorbac v0.1.2/go.mod h1:b0Vn+tCPuDuchA6mraTcWmEZ+ydjmJLwAYxdRS7xteA=
+github.com/plutoframework/pluto-rbac v0.1.0 h1:Q7d6c+neY8da65pViBYCb+uCn4EzbiOJhhj12r+BGA4=
+github.com/plutoframework/pluto-rbac v0.1.0/go.mod h1:3t1KayzQKiOQdeWeaE9oBYl9nPZsfQ0yvvvPA76edH8=
