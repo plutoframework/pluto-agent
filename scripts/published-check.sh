@@ -5,9 +5,10 @@ trap 'chmod -R u+w "$scratch"; rm -rf "$scratch"' EXIT
 export GOWORK=off
 export GOMODCACHE="$scratch/modcache"
 export GOCACHE="$scratch/buildcache"
-cd "$scratch"
+mkdir -p "$scratch/consumer"
+cd "$scratch/consumer"
 go mod init example.com/pluto-agent-consumer
-go get github.com/plutoframework/pluto-agent@v0.1.2 \
+go get github.com/plutoframework/pluto-agent@v0.1.3 \
   github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.2 \
   github.com/plutoframework/pluto-agent/integrations/otel@v0.1.2
 cat > consumer.go <<'GO'

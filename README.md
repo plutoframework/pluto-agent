@@ -13,7 +13,7 @@ small supported schema subset and explicit ownership boundaries.
 Go 1.25.5 or newer:
 
 ```sh
-go get github.com/plutoframework/pluto-agent@v0.1.2
+go get github.com/plutoframework/pluto-agent@v0.1.3
 ```
 
 Optional modules are independently pinned:
