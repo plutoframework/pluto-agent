@@ -9,5 +9,5 @@ export GOWORK="$workspace/go.work"
 go work init "${modules[@]}"
 # Go may need unreleased nested-module go.mod files while resolving ambiguous
 # package prefixes. These workspace-only replacements disappear on exit.
-go work edit -replace="github.com/plutoframework/pluto-agent@v0.1.1=$root"
-go work edit -replace="github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.1=$root/integrations/plutorbac"
+go work edit -replace="github.com/plutoframework/pluto-agent@v0.1.2=$root"
+go work edit -replace="github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.2=$root/integrations/plutorbac"

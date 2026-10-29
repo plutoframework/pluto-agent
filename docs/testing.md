@@ -34,7 +34,7 @@ and timeouts are errors and never count as killed mutants. It does not modify
 the working source or sibling repositories.
 
 `scripts/published-check.sh` creates a fresh module/cache, downloads all four
-published v0.1.1 modules with `GOWORK=off`, checks for replacements, builds and
+published v0.1.2 modules with `GOWORK=off`, checks for replacements, builds and
 tests a consumer, and executes the published example. This validates publication
 and ergonomic consumption without relying on a developer workspace.
 

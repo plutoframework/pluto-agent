@@ -7,9 +7,9 @@ export GOMODCACHE="$scratch/modcache"
 export GOCACHE="$scratch/buildcache"
 cd "$scratch"
 go mod init example.com/pluto-agent-consumer
-go get github.com/plutoframework/pluto-agent@v0.1.1 \
-  github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.1 \
-  github.com/plutoframework/pluto-agent/integrations/otel@v0.1.1
+go get github.com/plutoframework/pluto-agent@v0.1.2 \
+  github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.2 \
+  github.com/plutoframework/pluto-agent/integrations/otel@v0.1.2
 cat > consumer.go <<'GO'
 package consumer
 
@@ -97,4 +97,4 @@ while raw.strip():
 PY
 go test ./...
 go build ./...
-go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.1
+go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.2

@@ -13,14 +13,14 @@ small supported schema subset and explicit ownership boundaries.
 Go 1.25.5 or newer:
 
 ```sh
-go get github.com/plutoframework/pluto-agent@v0.1.1
+go get github.com/plutoframework/pluto-agent@v0.1.2
 ```
 
 Optional modules are independently pinned:
 
 ```sh
-go get github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.1
-go get github.com/plutoframework/pluto-agent/integrations/otel@v0.1.1
+go get github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.2
+go get github.com/plutoframework/pluto-agent/integrations/otel@v0.1.2
 ```
 
 The RBAC adapter uses published `pluto-rbac v0.1.0`. The telemetry adapter uses
@@ -69,7 +69,7 @@ decoding and authentication stay in the host application.
 ## Purchase review, without credentials
 
 ```sh
-go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.1
+go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.2
 ```
 
 Or, from this checkout:
