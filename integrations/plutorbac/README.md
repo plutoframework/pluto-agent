@@ -1,6 +1,6 @@
 # Pluto RBAC adapter
 
-Module: `github.com/plutoframework/pluto-agent/integrations/plutorbac v0.1.0`
+Module: `github.com/plutoframework/pluto-agent/integrations/plutorbac v0.1.1`
 with published `github.com/plutoframework/pluto-rbac v0.1.0`.
 
 Construct the application's immutable RBAC policy and assignment resolver using

@@ -7,15 +7,39 @@ export GOMODCACHE="$scratch/modcache"
 export GOCACHE="$scratch/buildcache"
 cd "$scratch"
 go mod init example.com/pluto-agent-consumer
-go get github.com/plutoframework/pluto-agent@v0.1.0 \
-  github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.0 \
-  github.com/plutoframework/pluto-agent/integrations/otel@v0.1.0
+go get github.com/plutoframework/pluto-agent@v0.1.1 \
+  github.com/plutoframework/pluto-agent/integrations/plutorbac@v0.1.1 \
+  github.com/plutoframework/pluto-agent/integrations/otel@v0.1.1
+cat > consumer.go <<'GO'
+package consumer
+
+import (
+    "context"
+
+    agent "github.com/plutoframework/pluto-agent"
+    "github.com/plutoframework/pluto-agent/providers/scripted"
+)
+
+type Summary struct { Text string `json:"text"` }
+
+func Summarize(ctx context.Context) (Summary, error) {
+    a, err := agent.New(agent.Config[struct{}, Summary]{
+        Provider: scripted.New(scripted.Final(`{"text":"fresh consumer"}`)),
+        Principal: func(struct{}) (agent.Actor, error) { return agent.Actor{}, nil },
+    })
+    if err != nil { return Summary{}, err }
+    result, err := a.Run(ctx, agent.Run[struct{}]{ID: "fresh-build"})
+    return result.Output, err
+}
+GO
 cat > consumer_test.go <<'GO'
 package consumer_test
 
 import (
     "context"
     "testing"
+
+    consumer "example.com/pluto-agent-consumer"
 
     agent "github.com/plutoframework/pluto-agent"
     agentotel "github.com/plutoframework/pluto-agent/integrations/otel"
@@ -34,6 +58,8 @@ func (checker) Authorize(context.Context, rbac.Request) error {
 }
 
 func TestPublishedConsumer(t *testing.T) {
+    summary, err := consumer.Summarize(context.Background())
+    if err != nil || summary.Text != "fresh consumer" { t.Fatal(summary, err) }
     type Output struct { Summary string `json:"summary"` }
     authorizer, err := plutorbac.New(checker{})
     if err != nil { t.Fatal(err) }
@@ -71,4 +97,4 @@ while raw.strip():
 PY
 go test ./...
 go build ./...
-go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.0
+go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.1

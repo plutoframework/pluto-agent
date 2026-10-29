@@ -1,6 +1,6 @@
 # Synthetic purchase review
 
-Run `go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.0`
+Run `go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.1`
 or `./scripts/example.sh` from the repository root. All module requirements are
 published pins; no local replacements are committed.
 

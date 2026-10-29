@@ -1,6 +1,6 @@
 # OpenTelemetry observer
 
-Module: `github.com/plutoframework/pluto-agent/integrations/otel v0.1.0`.
+Module: `github.com/plutoframework/pluto-agent/integrations/otel v0.1.1`.
 Call `otel.New(injectedTracer)` and supply the returned observer through
 `agent.Config.Observer`. `pluto-core/telemetry v0.1.1` exposes a compatible
 `Runtime.Tracer`; any OTEL tracer works. Exporter, SDK, shutdown, and sampling
