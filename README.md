@@ -37,7 +37,51 @@ This uses a scripted model and a synthetic loopback vendor service. It makes no
 paid model calls. Successful review and denied scenarios exercise typed tools;
 denied runs must produce zero external calls. See the [example](examples/purchase-review/README.md).
 
-### 3. Connect your own capabilities
+### 3. See the typed tool and its resource policy
+
+The runnable review example includes [typed dependencies](examples/purchase-review/domain.go),
+[RBAC wiring](examples/purchase-review/domain.go), [tool definitions](examples/purchase-review/tools.go)
+and [the full runner](examples/purchase-review/main.go). This exact tool definition
+comes from `reviewTools()`; its types and setup are in those complete sources:
+
+<!-- example-excerpt: examples/purchase-review/tools.go:purchase -->
+
+```go
+purchase, err := agent.NewTool(
+	agent.ToolConfig[Dependencies, IDArgs, Purchase]{
+		Name:        "read_purchase",
+		Description: "Read the purchase under review.",
+		Access: agent.Access{
+			Permission: "purchases:read",
+		},
+		Effect:   agent.ReadOnly,
+		Validate: validID,
+		Policy: func(_ context.Context, d Dependencies, actor agent.Actor, a IDArgs) error {
+			if a.ID != d.Purchase.ID || d.Purchase.TenantID != actor.Scope {
+				return agent.ErrDenied
+			}
+
+			return nil
+		},
+		Handle: func(_ context.Context, d Dependencies, _ IDArgs) (Purchase, error) {
+			return d.Purchase, nil
+		},
+	},
+)
+```
+<!-- /example-excerpt -->
+
+The model supplies an ID; verified identity and the selected purchase come from
+server dependencies. A permitted tool still checks the actual resource scope.
+The vendor tool follows the same pattern with an injected HTTP client.
+
+The scripted runner calls `read_purchase`, `read_vendor` and `read_policy`, then
+returns a typed review. It also exercises denied actor/run/agent restrictions;
+each denied scenario reports **external calls = 0**. This verifies tool authority,
+not live-model accuracy. [Tests](examples/purchase-review/main_test.go) cover denied
+resource access and identity spoofing as well.
+
+### 4. Connect your own capabilities
 
 Inject verified identity, tenant scope, clients and credentials through server-owned
 dependencies. Model arguments supply business inputs, never authority. Registered
