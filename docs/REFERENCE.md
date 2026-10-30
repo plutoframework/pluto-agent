@@ -27,38 +27,32 @@ The RBAC adapter uses published `pluto-rbac v0.1.0`. The telemetry adapter uses
 OpenTelemetry's trace API and accepts `pluto-core/telemetry v0.1.1`'s `Tracer`.
 It does not configure an SDK or exporter. Its SDK dependency is used by tests.
 
-## A typed run
+## A typed run with OpenAI
+
+Use the released OpenAI adapter for real inference. Load the key privately from
+your environment or secret manager; never store it in source or `pluto.toml`.
+The complete [summary command](../examples/summary/main.go) has imports, bounded
+stdin, HTTP and run deadlines, host-generated run IDs and error handling.
+Its [run guide](../examples/summary/README.md) lists provider prerequisites.
+
+The constructor below is an excerpt from that program:
 
 ```go
-type Dependencies struct {
-    Actor agent.Actor // Extracted from verified server context.
-}
-
-type Summary struct {
-    Text string `json:"text"`
-}
-
-a, err := agent.New(agent.Config[Dependencies, Summary]{
-    Provider: scripted.New(scripted.Final(`{"text":"Reviewed."}`)),
-    Instructions: "Summarize the supplied text.",
-    Principal: func(d Dependencies) (agent.Actor, error) {
-        return d.Actor, nil
-    },
-})
-if err != nil {
-    return err
-}
-result, err := a.Run(ctx, agent.Run[Dependencies]{
-    ID: "host-generated-run-id",
-    Deps: Dependencies{Actor: verifiedActor},
-    Input: "Text supplied by the application.",
-    Tools: agent.OnlyTools(), // Explicitly deny every tool for this run.
+provider, err := openai.New(openai.Config{
+    APIKey:     os.Getenv("SUMMARY_OPENAI_API_KEY"),
+    Model:      "gpt-5.4",
+    HTTPClient: &http.Client{Timeout: 30 * time.Second},
 })
 ```
 
-Imports are `agent "github.com/plutoframework/pluto-agent"` and
-`"github.com/plutoframework/pluto-agent/providers/scripted"`. A complete version
-is compiled in [example_test.go](../example_test.go).
+Pass the provider to `agent.New(agent.Config[Dependencies, Summary]{...})`.
+`Principal` reads the actor from host-owned dependencies; `Run` supplies input
+and `agent.OnlyTools()` for this tool-free summary. The model returns JSON which
+Pluto validates into `Summary{Text string}`. Output text is not predetermined.
+
+The standalone command acts for its operator. Web hosts must authenticate before
+creating the actor and invoking the operation. An `agent.Actor` value alone does
+not establish identity. Real calls require provider access and may incur charges.
 
 Construct tools with `NewTool(ToolConfig[D, Args, Result]{...})`, then pass the
 resulting `[]Tool[D]` to `New`. `Handle` is an ordinary
@@ -66,7 +60,7 @@ resulting `[]Tool[D]` to `New`. `Handle` is an ordinary
 operation or any injected client. No HTTP endpoint is required. HTTP request
 decoding and authentication stay in the host application.
 
-## Purchase review, without credentials
+## Testing: deterministic purchase review
 
 ```sh
 go run github.com/plutoframework/pluto-agent/examples/purchase-review@v0.1.2
