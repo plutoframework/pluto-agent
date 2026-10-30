@@ -39,9 +39,9 @@ The constructor below is an excerpt from that program:
 
 ```go
 provider, err := openai.New(openai.Config{
-    APIKey:     os.Getenv("SUMMARY_OPENAI_API_KEY"),
-    Model:      "gpt-5.4",
-    HTTPClient: &http.Client{Timeout: 30 * time.Second},
+	APIKey:     os.Getenv("SUMMARY_OPENAI_API_KEY"),
+	Model:      "gpt-5.4",
+	HTTPClient: &http.Client{Timeout: 30 * time.Second},
 })
 ```
 
