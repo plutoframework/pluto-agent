@@ -3,6 +3,20 @@ set -euo pipefail
 source "$(dirname "$0")/modules.sh"
 for module in "${modules[@]}"; do
   cd "$module"
+  format_diff=$(mktemp)
+  if ! "$root/scripts/golangci.sh" fmt --diff ./... > "$format_diff"; then
+    cat "$format_diff"
+    rm -f "$format_diff"
+    echo "Formatter failed; run make fmt and resolve any errors" >&2
+    exit 1
+  fi
+  if [[ -s "$format_diff" ]]; then
+    cat "$format_diff"
+    rm -f "$format_diff"
+    echo "Formatting differs; run make fmt" >&2
+    exit 1
+  fi
+  rm -f "$format_diff"
   "$root/scripts/golangci.sh" run ./...
   go vet ./...
   go build -o /dev/null ./...
