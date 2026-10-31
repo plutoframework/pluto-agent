@@ -16,6 +16,7 @@ type Config[D, O any] struct {
 	Approvals      ApprovalVerifier
 	ValidateOutput func(context.Context, D, O) error
 	Observer       Observer
+
 	// Zero Limits selects DefaultLimits. Other values must be complete.
 	Limits Limits
 }
@@ -80,6 +81,7 @@ func New[D, O any](c Config[D, O]) (*Agent[D, O], error) {
 }
 
 type Run[D any] struct {
+
 	// ID is a host-generated unique run identifier, never model-generated.
 	ID    string
 	Deps  D

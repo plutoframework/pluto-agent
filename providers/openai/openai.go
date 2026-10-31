@@ -23,6 +23,7 @@ type Config struct {
 	APIKey     string
 	Model      string
 	HTTPClient *http.Client
+
 	// Endpoint defaults to OpenAI's exact Chat Completions URL. A custom
 	// endpoint is a trusted host setting and receives the configured key.
 	Endpoint              string

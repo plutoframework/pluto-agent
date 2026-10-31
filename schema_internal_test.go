@@ -7,6 +7,7 @@ import (
 )
 
 func TestDuplicateSchemaFieldRejected(t *testing.T) {
+
 	// Build dynamically so go vet can still reject accidental duplicate tags
 	// in real source. This deliberately malformed schema must fail.
 	typeOf := reflect.StructOf([]reflect.StructField{

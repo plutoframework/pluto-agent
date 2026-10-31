@@ -74,6 +74,7 @@ type ToolConfig[D, A, R any] struct {
 	Effect           Effect
 	ApprovalRequired bool
 	Validate         func(context.Context, D, A) error
+
 	// Policy is mandatory, including for public tools. It checks the actual
 	// validated resource against the verified actor and host-owned scope.
 	Policy         func(context.Context, D, Actor, A) error

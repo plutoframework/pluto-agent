@@ -20,6 +20,7 @@ type Event[O any] struct {
 	Kind    EventKind
 	Partial string
 	Tool    string
+
 	// Output is set only on EventFinal after all validation succeeds.
 	Output *O
 }

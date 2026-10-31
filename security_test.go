@@ -265,6 +265,7 @@ func TestApprovalIsExactAndAdditional(t *testing.T) {
 					c.Approvals = approvalFunc(
 						func(_ context.Context, r agent.ApprovalRequest) error {
 							verified++
+
 							// Simulate a persisted host-approved record and compare every binding.
 							wantRun, wantTool := "run-1", "lookup"
 							wantActor := agent.Actor{
