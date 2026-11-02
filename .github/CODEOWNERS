@@ -1,4 +1,4 @@
-# Native owner approval complements the Pluto merge-policy check.
+# Independent human owner approval is required.
 **/auth/ @DavidHoenisch
 **/crypto/ @DavidHoenisch
 **/migrations/ @DavidHoenisch
@@ -8,7 +8,6 @@
 .gitmodules @DavidHoenisch
 .golangci.yml @DavidHoenisch
 .npmrc @DavidHoenisch
-.pr_agent.toml @DavidHoenisch
 /.github/ @DavidHoenisch
 /.github/workflows/check.yml @DavidHoenisch
 /.golangci.yml @DavidHoenisch
